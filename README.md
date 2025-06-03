@@ -1,54 +1,104 @@
-# React + TypeScript + Vite
+# Gerenciamento de Escolas - ProlEduca 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este módulo permite o gerenciamento completo das escolas cadastradas na plataforma ProlEduca. Ele inclui funcionalidades para listar, visualizar, cadastrar e editar informações detalhadas de cada escola.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1.  **Dashboard de Escolas (`/admin/schools`)**
+    *   Lista todas as escolas cadastradas em formato de tabela.
+    *   Exibe informações chave como Logo, Nome, Bairro, Email e Telefone.
+    *   Permite filtrar as escolas por Nome, Bairro ou Slug.
+    *   Ações disponíveis para cada escola:
+        *   **Editar:** Abre um modal para modificar os dados da escola selecionada.
+        *   **(Futuro):** Deletar escola.
+    *   Botão para navegar para a tela de cadastro de nova escola.
 
-## Expanding the ESLint configuration
+2.  **Cadastro de Nova Escola (`/admin/register` ou link do Dashboard)**
+    *   Formulário detalhado para inserir todas as informações necessárias para uma nova escola, incluindo:
+        *   Dados básicos: Nome, Slug (sugestão automática a partir do nome), Descrição.
+        *   Endereço completo: Rua, Número, Bairro, Cidade, Estado, CEP.
+        *   Contato: Telefone, Email, Website.
+        *   Identificação: CNPJ, Tipo (Pública/Privada).
+        *   Visual: URL da Logo ou upload de arquivo de imagem.
+        *   Segurança: Senha para a conta da escola (se aplicável).
+    *   Validações nos campos para garantir a consistência dos dados.
+    *   Feedback visual para o usuário durante e após a submissão.
+    *   Após o cadastro bem-sucedido, o usuário é redirecionado para o Dashboard de Escolas.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+3.  **Edição de Escola (Modal no Dashboard)**
+    *   Acessado através do botão "Editar" na tabela do Dashboard de Escolas.
+    *   Apresenta um modal pré-preenchido com os dados atuais da escola selecionada.
+    *   Permite modificar todos os campos que foram preenchidos no cadastro.
+    *   Ao salvar, as alterações são enviadas para o backend e a lista de escolas no dashboard é atualizada.
+    *   Campos como CNPJ, Tipo e Senha podem ser alterados (a alteração de senha é opcional, deixando em branco a senha não é modificada).
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Tecnologias Utilizadas (Frontend)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+*   **React:** Biblioteca JavaScript para construção de interfaces de usuário.
+*   **TypeScript:** Superset do JavaScript que adiciona tipagem estática.
+*   **Vite:** Ferramenta de build e servidor de desenvolvimento rápido.
+*   **Styled Components:** Para estilização CSS-in-JS (ou outra biblioteca de sua escolha).
+*   **Axios:** Cliente HTTP para realizar chamadas à API do backend.
+*   **React Router DOM:** Para gerenciamento de rotas na aplicação.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Pré-requisitos para Execução
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1.  **Node.js e npm (ou Yarn):** Necessários para instalar dependências e rodar o servidor de desenvolvimento.
+    *   Node.js: [https://nodejs.org/](https://nodejs.org/)
+2.  **Backend ProlEduca API Rodando:** As funcionalidades de gerenciamento de escolas dependem da API backend (Spring Boot) para persistência e consulta de dados.
+    *   Certifique-se de que o backend esteja em execução (geralmente em `http://localhost:8080`).
+    *   Configure a variável de ambiente `VITE_API_BASE_URL` no arquivo `.env.local` do frontend para apontar para a URL correta do backend. Exemplo:
+        ```
+        VITE_API_BASE_URL=http://localhost:8080
+        ```
+
+## Como Rodar
+
+1.  **Clone o repositório** (se ainda não o fez):
+    ```bash
+    git clone <https://github.com/Jaoow/ProlEduca-API>
+    cd school-page-main
+    ```
+
+ 1.2. Clone o repositório (se ainda não o fez):
+   ```bash
+   git clone <https://github.com/m4lf0r/prolEducaFront>
+   cd school-page-main
+   ```
+
+
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    # ou
+    # yarn install
+    ```
+
+3.  **Configure as variáveis de ambiente:**
+    Crie um arquivo `.env.local` na raiz do projeto frontend e adicione a URL base da sua API:
+    ```env
+    VITE_API_BASE_URL=http://localhost:8080
+    ```
+
+4.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npm run dev
+    # ou
+    # yarn dev
+    ```
+    A aplicação frontend estará disponível em `http://localhost:5173` (ou a porta indicada no terminal).
+
+5.  **Acesse as telas de administração:**
+    *   Dashboard: `http://localhost:5173/admin/schools`
+    *   Cadastro: `http://localhost:5173/admin/register` (ou através de um link no dashboard)
+
+
+## Pontos de Atenção e Melhorias Futuras
+
+*   **Serviço de Upload de Imagens:** A funcionalidade de upload de arquivos para a logo da escola precisa ser completamente implementada (backend e frontend). Atualmente, pode estar usando URLs manuais ou simulações.
+*   **Segurança da Senha:** No backend, a senha da escola deve ser armazenada usando hash (ex: BCrypt). O frontend envia a senha em texto plano (sobre HTTPS em produção).
+*   **Tratamento de Erros:** Melhorar o feedback visual para erros de API e validação.
+*   **Paginação e Ordenação:** Para a tabela de escolas, implementar paginação e ordenação se o número de escolas crescer muito.
+*   **Funcionalidade de Deleção:** Adicionar a capacidade de deletar escolas.
+*   **Testes:** Escrever testes unitários e de integração.
+*   **Controle de Acesso/Autorização:** Implementar autenticação e autorização para garantir que apenas usuários administradores possam acessar estas funcionalidades.
